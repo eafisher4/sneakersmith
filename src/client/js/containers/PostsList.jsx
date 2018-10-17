@@ -18,13 +18,13 @@ const mapDispatchToProps = dispatch => ({
 
 class PostsList extends Component {
 
-  // componentDidMount() {
-  //   const { getListing } = this.props;
-  //   getListing();
-  // }
+  componentDidMount() {
+    const { getListing } = this.props;
+    getListing();
+  }
+
 
   render() {
-    this.props.getListing();
     let { listings } = this.props;
     let listingPosts = listings.map((element) =>{
       return (

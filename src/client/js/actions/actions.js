@@ -40,6 +40,11 @@ export const handleUploadImage = (event) => ({
   payload: event,
 })
 
+export const togglePopupKey = (key) => ({
+  type: types.UPDATE_TOGGLE_POPUP_KEY,
+  payload: key,
+})
+
 // export const getFilters = () => ({
 //   type: types.GET_FILTERS,
 //   payload: ,

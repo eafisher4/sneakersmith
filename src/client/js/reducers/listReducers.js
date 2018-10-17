@@ -15,6 +15,7 @@ const initialState = {
   isLoggedin: false,
   formToggleState: false,
   showPopup: false,
+  togglePopupKey: '',
 };
 
 export default function (previousState = initialState, action) {
@@ -66,6 +67,11 @@ export default function (previousState = initialState, action) {
       stateCopy = Object.assign({}, previousState);
       console.log('does this button working?');
       stateCopy.formToggleState = !stateCopy.formToggleState;
+      return stateCopy;
+    }
+    case types.UPDATE_TOGGLE_POPUP_KEY: {
+      stateCopy = Object.assign({}, previousState);
+      stateCopy.togglePopupKey = action.payload;
       return stateCopy;
     }
     case types.UPDATE_SELECTED_BRAND: {
