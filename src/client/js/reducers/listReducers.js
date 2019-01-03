@@ -14,8 +14,12 @@ const initialState = {
   filterBy: '',
   isLoggedin: false,
   formToggleState: false,
-  showPopup: false,
+  //showPopup: false,
   togglePopupKey: '',
+  username: '',
+  password: '',
+  isLoggedin: '',
+  userProfile: {username: '', email: ''},
 };
 
 export default function (previousState = initialState, action) {
@@ -34,18 +38,18 @@ export default function (previousState = initialState, action) {
           toggledPostArrayNum = i;
           break;
         }
-        console.log('no post found');
       }
       console.log('toggledPost:', toggledPost);
-      console.log(toggledPost.showPopup);
       toggledPost.showPopup = !toggledPost.showPopup;
+      console.log(toggledPost.showPopup);
       listingsCopy[toggledPostArrayNum] = toggledPost;
       stateCopy.listings = listingsCopy;
       return stateCopy;
     }
+    
     case types.CREATE_LISTING: {
       stateCopy = Object.assign({}, previousState);
-      const { user, imgUrl, key, title, price, condition, brand, size, listings, showPopup } = previousState;
+      const { user, imgUrl, key, title, price, condition, brand, size, listings } = previousState;
       
       const newListing = {
         user,
@@ -56,7 +60,6 @@ export default function (previousState = initialState, action) {
         brand,
         size,
         condition,
-        showPopup,
       };
       const newListings = listings.slice();
       newListings.push(newListing);
@@ -65,15 +68,10 @@ export default function (previousState = initialState, action) {
     }
     case types.TOGGLE_FORM: {
       stateCopy = Object.assign({}, previousState);
-      console.log('does this button working?');
       stateCopy.formToggleState = !stateCopy.formToggleState;
       return stateCopy;
     }
-    case types.UPDATE_TOGGLE_POPUP_KEY: {
-      stateCopy = Object.assign({}, previousState);
-      stateCopy.togglePopupKey = action.payload;
-      return stateCopy;
-    }
+
     case types.UPDATE_SELECTED_BRAND: {
       stateCopy = Object.assign({}, previousState);
       stateCopy.brand = action.payload.target.value;
@@ -105,13 +103,11 @@ export default function (previousState = initialState, action) {
       stateCopy = Object.assign({}, previousState);
       stateCopy.title = action.payload.target.value;
       console.log('title', action.payload.target.value)
-
       return stateCopy;
     }
     case types.HANDLE_UPLOAD_IMAGE: {
       stateCopy = Object.assign({}, previousState);
       stateCopy.imgUrl = action.payload.target.value;
-
       return stateCopy;
     }
     case types.GET_FILTERS: {
@@ -127,6 +123,23 @@ export default function (previousState = initialState, action) {
     case types.DISPLAY_LISTING: {
       stateCopy = Object.assign({}, previousState);
       stateCopy.listings = action.payload;
+      return stateCopy;
+    }
+    case types.UPDATE_USERNAME: {
+      stateCopy = Object.assign({}, previousState);
+      stateCopy.username = action.payload.target.value;
+      return stateCopy;
+    }
+    case types.UPDATE_PASSWORD: {
+      stateCopy = Object.assign({}, previousState);
+      stateCopy.password = action.payload.target.value;
+      return stateCopy;
+    }
+    case types.LOGIN_SUCCESS: {
+      stateCopy = Object.assign({}, previousState);
+      stateCopy.isLoggedIn = true;
+      stateCopy.userProfile.username = action.payload.username;
+      stateCopy.userProfile.email = action.payload.email;
       return stateCopy;
     }
     default:

@@ -1,9 +1,9 @@
 import * as types from '../constants/actionTypes';
 import axios from 'axios';
 
-export const togglePopup = (postId) => ({
+export const togglePopup = (key) => ({
   type: types.TOGGLE_POPUP,
-  payload: postId,
+  payload: key,
 })
 
 export const createListing = () => ({
@@ -73,6 +73,10 @@ export const getListing = () => {
     })
     .then((data) => {
       // console.log(data);
+      data.forEach(obj => {
+        obj.showPopup = false;
+      });
+      console.log('getlisting data ', data)
       dispatch(displayListing(data));
     })
     .catch((err) => {
@@ -80,3 +84,41 @@ export const getListing = () => {
     })
   }
 }
+
+export const updateUsername = event => ({
+  type: types.UPDATE_USERNAME,
+  payload: event,
+});
+
+export const updatePassword = event => ({
+  type: types.UPDATE_PASSWORD,
+  payload: event,
+});
+
+export const loginSuccess = (userInfo) => ({
+  type: types.LOGIN_SUCCESS,
+  payload: userInfo,
+});
+
+export const validateUser = (userInfo) => {
+  return function (dispatch) {
+    return fetch('/login',  {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json; charset=utf-8',
+      },
+      body: JSON.stringify(userInfo)
+    })
+    .then((res) => {
+      return res.json();
+    })
+    .then((data) => {
+      console.log(data);
+      dispatch(loginSuccess(data));
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+  }
+}
+
